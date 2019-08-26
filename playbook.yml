@@ -1,0 +1,16 @@
+
+---
+- hosts: all
+  connection: local
+  gather_facts: no
+
+  vars:
+    user_name: "{{ lookup('env', 'USER') }}"
+    local_home: "{{ lookup('env', 'HOME') }}"
+    bin_path: "~/.local/bin"
+    data_dir: "{{ local_home }}/.local/share"
+    anyenv_root: "{{ data_dir }}/anyenv"
+
+   #environment:
+  roles:
+    - base

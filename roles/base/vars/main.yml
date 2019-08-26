@@ -1,0 +1,155 @@
+directories:
+  - ~/.aws
+  - ~/.m2
+  - ~/.ssh
+  - ~/.local/bin
+  - ~/projects
+  - ~/sync
+
+
+repositories:
+  ppa:
+    - "ppa:linuxuprising/apps"
+    - "ppa:linuxuprising/java"
+    - "ppa:nilarimogard/webupd8"
+  url:
+    - "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main"
+    - "deb [arch=amd64] https://download.virtualbox.org/virtualbox/debian bionic contrib"
+    - "deb http://repo.sinew.in/ stable main"
+    - "deb https://mega.nz/linux/MEGAsync/xUbuntu_19.04/ ./"
+  key:
+    - url: "https://dl.google.com/linux/linux_signing_key.pub"
+    - url: "https://dl.sinew.in/keys/enpass-linux.key"
+    - url: "https://mega.nz/linux/MEGAsync/xUbuntu_19.04/Release.key"
+    - url: "https://www.virtualbox.org/download/oracle_vbox_2016.asc"
+    - url: "https://www.virtualbox.org/download/oracle_vbox.asc"
+
+packages:
+  - apt-file
+  - aria2
+  - build-essential
+  - byobu
+  - enpass
+  - exfat-fuse
+  - exfat-utils
+  - gdebi
+  - git
+  - google-chrome-stable
+  - gparted
+  - groovy
+  - htop
+  - httpie
+  - jq
+  - maven
+  - megasync
+  - openjdk-11-jdk
+  - openssh-server
+  - p7zip-full
+  - terminator
+  - tlp
+  - tlp-rdw
+  - tlpui
+  - traceroute
+  - vim
+  - virtualbox-6.0
+  - watchman
+  - xclip
+  - libpam0g:i386
+  - libx11-6:i386
+  - libstdc++6:i386
+  - libstdc++5:i386
+  - libnss3-tools
+
+remote_packages: []
+
+remote_executables:
+  - url: "https://releases.hashicorp.com/vagrant/2.2.4/vagrant_2.2.4_linux_amd64.zip"
+    name: vagrant
+  - url: "https://github.com/meetfranz/franz/releases/download/v5.1.0/franz-5.1.0-x86_64.AppImage"
+    name: franz
+
+snaps:
+  normal:
+    - docker
+    - nmap
+    - shfmt
+  classic:
+    - aws-cli
+    - code
+    - google-cloud-sdk
+    - helm
+    - intellij-idea-ultimate
+    - kubectl
+    - skype
+    - slack
+    - terraform-snap
+
+vscode:
+  extensions:
+    - aaron-bond.better-comments
+    - bat67.markdown-extension-pack
+    - bbenoist.vagrant
+    - coenraads.bracket-pair-colorizer-2
+    - dart-code.flutter
+    - donjayamanne.git-extension-pack
+    - donjayamanne.python-extension-pack
+    - dotjoshjohnson.xml
+    - endverbraucher.pack-javascript
+    - foxundermoon.shell-format
+    - gruntfuggly.todo-tree
+    - korekontrol.saltstack
+    - loiane.ts-extension-pack
+    - marclipovsky.string-manipulation
+    - mauve.terraform
+    - ms-kubernetes-tools.vscode-kubernetes-tools
+    - ms-python.anaconda-extension-pack
+    - oderwat.indent-rainbow
+    - p1c2u.docker-compose
+    - pivotal.vscode-boot-dev-pack
+    - pverest.java-ide-pack
+    - rebornix.ruby
+    - rpinski.shebang-snippets
+    - samuelcolvin.jinjahtml
+    - spmeesseman.vscode-taskexplorer
+    - svipas.javascript-extension-pack
+    - tiibun.vscode-docker-ws
+    - vscode-icons-team.vscode-icons
+    - vscoss.vscode-ansible
+    - waderyan.nodejs-extension-pack
+    - wayou.vscode-todo-highlight
+    - wholroyd.jinja
+  settings: {
+    "files.autoSave": "afterDelay",
+    "editor.rulers": [80, 100, 120],
+    "editor.renderWhitespace": true,
+    "terminal.integrated.fontSize": 13,
+    "workbench.iconTheme": "vscode-icons",
+    "projectManager.any.maxDepthRecursion": 1,
+    "projectManager.any.baseFolders": [
+      "/home/arsouza/projects"
+    ],
+    "files.associations": {
+      "Vagrantfile": "ruby",
+      "**/defaults/**/*.yml": "jinja-yaml",
+      "**/group_vars/**/*": "jinja-yaml",
+      "**/host_vars/**/*": "jinja-yaml",
+      "**/vars/**/*.yml": "jinja-yaml",
+      "**/tasks/**/*.yml": "ansible",
+      "**/handlers/*.yml": "ansible",
+      "**/meta/*.yml": "ansible",
+      "**/roles/**/*.yml": "ansible",
+      "**/playbooks/**/*.yml": "ansible",
+      "**/ansible/**/hosts": "ini",
+      "**/ansible/**/inventory": "ini",
+      "ansible.cfg": "ini",
+    },
+    "[ansible]": {
+      "editor.detectIndentation": false,
+      "editor.tabSize": 2,
+      "editor.insertSpaces": true
+    }
+  }
+
+git_repos: {}
+#  - name: ansible-local
+#    repo: git@github.com:xandors/ansible-local.git

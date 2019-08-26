@@ -1,0 +1,191 @@
+---
+# Install Ubuntu packages
+
+- name: Add user to sudo
+  lineinfile:
+    path: "/etc/sudoers.d/{{ user_name }}"
+    line: "{{ user_name }} ALL=(ALL) NOPASSWD: ALL"
+    state: present
+    mode: 0440
+    create: yes
+    validate: "visudo -cf %s"
+  become: true
+
+- name: apt update
+  apt:
+    update_cache: true
+  become: true
+
+- name: Update all packages to the latest version
+  apt:
+    upgrade: dist
+  become: true
+
+- name: Ensure directory exists
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ user_name }}"
+    group: "{{ user_name }}"
+    recurse: yes
+  with_items:
+    - "{{ directories }}"
+
+
+- name: Ensure group "docker" exists
+  group:
+    name: docker
+    state: present
+  become: true
+
+- name: Add the user "docker"
+  user:
+    name: docker
+    group: docker
+  become: true
+
+- name: adding existing user '{{ user_name }}' to group sudo
+  user:
+    name: "{{ user_name }}"
+    groups: docker
+    append: yes
+  become: true
+
+- name: Add keys w/ url and id
+  apt_key:
+    url: "{{ item.url }}"
+    id: "{{ item.id }}"
+    state: present
+  with_items: "{{ repositories.key }}"
+  become: true
+  when: item.url is defined and item.id is defined
+
+- name: Add keys w/ url and no id
+  apt_key:
+    url: "{{ item.url }}"
+    state: present
+  with_items: "{{ repositories.key }}"
+  become: true
+  when: item.url is defined and item.id is undefined
+
+- name: Add keys w/ keyserver and id
+  apt_key:
+    keyserver: "{{ item.keyserver }}"
+    id: "{{ item.id }}"
+    state: present
+  with_items: "{{ repositories.key }}"
+  become: true
+  when: item.keyserver is defined and item.id is defined
+
+- name: Add PPAs
+  apt_repository:
+    repo: "{{ item }}"
+    state: present
+  with_items: "{{ repositories.ppa }}"
+  become: true
+
+- name: Add additional repos
+  apt_repository:
+    repo: "{{ item }}"
+    state: present
+  with_items: "{{ repositories.url }}"
+  become: true
+
+- name: Install packages
+  apt:
+    name: "{{ packages }}"
+    state: present
+  become: true
+
+- name: Install remote packages
+  apt:
+    deb: "{{ item }}"
+  with_items: "{{ remote_packages }}"
+  become: true
+
+- include_tasks: tarexe.yml
+  with_items: "{{ remote_executables }}"
+  when: item.url.endswith("tar.gz") or item.url.endswith("tgz")
+
+- name: Install remote zip executable
+  unarchive:
+    src: "{{ item.url }}"
+    dest: "{{ bin_path }}"
+    remote_src: yes
+  with_items: "{{ remote_executables }}"
+  when: item.url.endswith("zip")
+
+- name: Install remote executable
+  get_url:
+    url: "{{ item.url }}"
+    dest: "~/.local/bin/{{ item.name }}"
+    owner: "{{ user_name }}"
+    group: "{{ user_name }}"
+    mode: 0755
+  with_items: "{{ remote_executables }}"
+  when: not item.url.endswith("tar.gz") and not item.url.endswith("tgz") and not item.url.endswith("zip")
+
+- name: Install snaps
+  snap:
+    name: "{{ snaps.normal }}"
+    state: present
+  become: true
+
+- name: Install snaps with option --classic
+  snap:
+    name: "{{ snaps.classic }}"
+    classic: true
+    state: present
+  become: true
+
+- name: Create terraform snap symbolic link
+  file:
+    src: terraform-snap.terraform
+    dest: /snap/bin/terraform
+    owner: root
+    group: root
+    state: link
+  become: true
+
+- name: Install VSCode Extensions
+  command: "code --install-extension {{ item }} --force"
+  with_items: "{{ vscode.extensions }}"
+
+- name: Write VSCode Settings
+  template:
+    src: settings.json.j2
+    dest: "~/.config/Code/User/settings.json"
+    force: yes
+    mode: 0644
+
+- git_config:
+    name:  user.name
+    scope: global
+    value: "Jorge Eduardo"
+
+- git_config:
+    name:  user.email
+    scope: global
+    value: "jeduoliveira81@gmail.com"
+
+- git_config:
+    name: core.editor
+    scope: global
+    value: vim
+
+- name: Checkout git repos
+  git:
+    repo: "{{ item.repo }}"
+    dest: "~/projects/{{ item.name }}"
+    update: no
+  with_items: "{{ git_repos }}"
+
+- name: Remove useless packages from the cache
+  apt:
+    autoclean: true
+  become: true
+
+- name: Remove dependencies that are no longer required
+  apt:
+    autoremove: true
+  become: true
