@@ -173,13 +173,6 @@
     scope: global
     value: vim
 
-- name: Checkout git repos
-  git:
-    repo: "{{ item.repo }}"
-    dest: "~/projects/{{ item.name }}"
-    update: no
-  with_items: "{{ git_repos }}"
-
 - name: Remove useless packages from the cache
   apt:
     autoclean: true

@@ -78,11 +78,11 @@ snaps:
     - code
     - google-cloud-sdk
     - helm
-    - intellij-idea-ultimate
     - kubectl
     - skype
     - slack
     - terraform-snap
+    - eclipse
 
 vscode:
   extensions:
@@ -111,7 +111,6 @@ vscode:
     - rpinski.shebang-snippets
     - samuelcolvin.jinjahtml
     - spmeesseman.vscode-taskexplorer
-    - svipas.javascript-extension-pack
     - tiibun.vscode-docker-ws
     - vscode-icons-team.vscode-icons
     - vscoss.vscode-ansible
