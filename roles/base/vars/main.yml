@@ -3,7 +3,10 @@ directories:
   - ~/.m2
   - ~/.ssh
   - ~/.local/bin
-  - ~/projects
+  - ~/projects/docker
+  - ~/projects/ansible
+  - ~/projects/kubernetes
+  - ~/projects/vagrant
   - ~/sync
 
 
@@ -27,6 +30,7 @@ repositories:
 packages:
   - apt-file
   - aria2
+  - bash-completion
   - build-essential
   - byobu
   - enpass
@@ -67,6 +71,8 @@ remote_executables:
     name: vagrant
   - url: "https://github.com/meetfranz/franz/releases/download/v5.1.0/franz-5.1.0-x86_64.AppImage"
     name: franz
+  - url: "https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64"
+    name: minikube
 
 snaps:
   normal:
@@ -149,6 +155,26 @@ vscode:
     }
   }
 
-git_repos: {}
-#  - name: ansible-local
-#    repo: git@github.com:xandors/ansible-local.git
+git_repos:
+  - name: "docker/lumisportal-docker"
+    repo: https://github.com/jeduoliveira/lumisportal-docker.git
+  - name: "docker/lumisportal-docker-httpd"
+    repo: https://github.com/jeduoliveira/lumisportal-docker-httpd.git
+  - name: "docker/lumisportal-docker-elasticsearch"
+    repo: https://github.com/jeduoliveira/lumisportal-docker-elasticsearch.git    
+  - name: "ansible/ansible-role-lumisportal"
+    repo: https://github.com/jeduoliveira/ansible-role-lumisportal.git
+  - name: "ansible/ansible-role-tomcat"
+    repo: https://github.com/jeduoliveira/ansible-role-tomcat.git
+  - name: "ansible/ansible-role-zulu-openjdk"
+    repo: https://github.com/jeduoliveira/ansible-role-zulu-openjdk.git
+  - name: "ansible/ansible-role-elasticsearch"
+    repo: https://github.com/jeduoliveira/ansible-role-elasticsearch.git
+  - name: "vagrant/kubernetes-cluster"
+    repo: https://github.com/jeduoliveira/vagrant-ks8.git
+  - name: cursos
+    repo: git@github.com:jeduoliveira/cursos.git
+
+
+    
+    

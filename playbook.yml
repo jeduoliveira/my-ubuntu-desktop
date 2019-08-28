@@ -4,6 +4,9 @@
   connection: local
   gather_facts: no
 
+  vars_files:
+    - vault/certificates.yml
+    
   vars:
     user_name: "{{ lookup('env', 'USER') }}"
     local_home: "{{ lookup('env', 'HOME') }}"

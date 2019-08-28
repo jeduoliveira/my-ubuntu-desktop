@@ -151,6 +151,13 @@
   command: "code --install-extension {{ item }} --force"
   with_items: "{{ vscode.extensions }}"
 
+- name: Enable kubectl autocompletion
+  lineinfile:
+    path: ~/.bashrc
+    regexp: '^source'
+    line: 'source <(kubectl completion bash)'
+  tags: kubectl
+
 - name: Write VSCode Settings
   template:
     src: settings.json.j2
@@ -172,6 +179,24 @@
     name: core.editor
     scope: global
     value: vim
+
+- name: make sure SSL certificates are installed
+  copy:
+    content: "{{ item.content }}"
+    dest: "~/{{ item.name }}"
+    mode: 0600
+  with_items: "{{ certificates }}"
+  tags: git
+
+- name: Checkout git repos
+  git:
+    repo: "{{ item.repo }}"
+    dest: "~/projects/{{ item.name }}"
+    update: no
+    accept_hostkey: yes
+  with_items: "{{ git_repos }}"
+  tags: git
+
 
 - name: Remove useless packages from the cache
   apt:
